@@ -14,7 +14,7 @@ const defaultDogData = {
   name: 'unknown',
   breed: 'unknown',
   age: 0,
-}
+};
 
 // object for us to keep track of the last Cat we made and dynamically update it sometimes
 let lastAdded = new Cat(defaultData);
@@ -172,16 +172,6 @@ const searchName = async (req, res) => {
      try/catch in case the database throws an error or doesn't respond.
   */
   try {
-    /* Just like Cat.find() in hostPage1() above, Mongoose models also have a .findOne()
-       that will find a single document in the database that matches the search parameters.
-       This function is faster, as it will stop searching after it finds one document that
-       matches the parameters. The downside is you cannot get multiple responses with it.
-
-       One of three things will occur when trying to findOne in the database.
-        1) An error will be thrown, which will stop execution of the try block and move to the catch block.
-        2) Everything works, but the name was not found in the database returning an empty doc object.
-        3) Everything works, and an object matching the search is found.
-    */
     const doc = await Cat.findOne({ name: req.query.name }).exec();
 
     // If we do not find something that matches our search, doc will be empty.
@@ -277,7 +267,7 @@ const searchDogName = async (req, res) => {
 
     doc.age++;
 
-    const savePromise = await doc.save();
+    await doc.save();
 
     return res.json({ name: doc.name, breed: doc.breed, age: doc.age });
   } catch (err) {
